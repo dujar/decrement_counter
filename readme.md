@@ -2,13 +2,14 @@
 
 Application written in typescript.
 
+
 Steps to launch app:
 1 - clone repo / unzip
 2 - root folder and install dependencies with yarn
 ```
 yarn 
 ```
-3 - build app and docker image
+3 - build app and docker image as decrement_counter/dev
 ```
  yarn build
 ```
@@ -16,6 +17,11 @@ yarn
 ```
  yarn run docker:deploy $DECREMENT
 ```
+5 - STOP APP
+```
+    yarn run docker:down
+```
+
 
 You may open multiple browsers @[localhost:8080](http://localhost:8080) and check realtime counter clock time ticking by set decrement.
 

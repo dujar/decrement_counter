@@ -46,7 +46,11 @@
           ws.onmessage = function (e) {
             console.log("Received: '" + e.data + "'")
             const time = moment(e.data).local().toString();
-            setTime(time)
+            if(time == "Invalid date"){
+              setTime(e.data) 
+            } else {
+              setTime(time)
+            }
           }
         }, [])
 
@@ -54,7 +58,7 @@
           <div className="flex flex-col">
             <div className="w-1/2 h-82 bg-blue-400 flex flex-col">
               <div className="font-bold">
-                decrement set: {counter} second {counter ==1 ? '' : 's'}
+                decrement set: {counter} second{counter ==1 ? '' : 's'}
                 <div>
                   <span> remote time: </span>
                   {time}

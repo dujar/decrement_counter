@@ -14,11 +14,13 @@ export const runApp = async (arg?: string | number) => {
   console.log('tick is:', tick)
   let now = moment.utc()
   let wsServer: WS.server
+  let counter = tick;
 
   setInterval(() => {
-    now = now.subtract(tick as number, 'seconds')
+    counter += Number(tick)
+    now = now.subtract(Number(tick) as number, 'seconds')
     broadcastTime(now.toString())
-    console.log("counter: ",tick,"time: ",now.toString())
+    console.log("decrement: ", tick, "counter in seconds: ",counter,"time: ",now.toString())
   }, 1000)
 
   app

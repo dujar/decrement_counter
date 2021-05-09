@@ -66,4 +66,12 @@ describe('validate Arg function', () => {
     nowUtc = nowUtc.subtract(123123123, 'seconds')
     console.log('after 2', nowUtc.toString())
   })
+
+  test('substract moment:', () => {
+    let nowUtc = moment.utc()
+    console.log('before', nowUtc.toString())
+    nowUtc = nowUtc.subtract(5000000000000, 'seconds')
+    console.log('after', nowUtc.toString())
+
+  })
 })
