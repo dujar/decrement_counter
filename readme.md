@@ -4,7 +4,9 @@ Application written in typescript.
 
 
 Steps to launch app:
+
 1 - clone repo / unzip
+
 2 - root folder and install dependencies with yarn
 ```
 yarn 
