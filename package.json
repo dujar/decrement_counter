@@ -10,8 +10,10 @@
     "test": "yarn build && jest --rootDir=dist",
     "dev": "ts-node-dev src",
     "build": "rm -rf dist && tsc -p . && cp src/index.html dist && docker build -t decrement_counter/dev .",
-    "docker:deploy": "docker rm -f fab_decrement_counter && docker run --name fab_decrement_counter -p 8080:8080 -d decrement_counter/dev",
-    "docker:logs": "docker logs fab_decrement_counter"
+    "docker:deploy": "docker rm -f decrement_counter && docker run --name decrement_counter -p 8080:8080 -d decrement_counter/dev yarn start",
+    "docker:deploy:dev": "docker rm -f decrement_counter && docker run --name decrement_counter -v $(pwd)/src/index.html:/code/dist/index.html -p 8080:8080 -d decrement_counter/dev yarn start",
+    "docker:logs": "docker logs decrement_counter",
+    "docker:down": "docker rm -f decrement_counter"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.14.1",

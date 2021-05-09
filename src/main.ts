@@ -12,13 +12,13 @@ export const runApp = async (arg?: string | number) => {
   tick = validateArg(tick as string)
 
   console.log('tick is:', tick)
-  let now = moment()
+  let now = moment.utc()
   let wsServer: WS.server
 
   setInterval(() => {
     now = now.subtract(tick as number, 'seconds')
     broadcastTime(now.toString())
-    console.log(now)
+    console.log("counter: ",tick,"time: ",now.toString())
   }, 1000)
 
   app
@@ -47,25 +47,24 @@ export const runApp = async (arg?: string | number) => {
     autoAcceptConnections: true,
   })
 
-  let connection: WS.connection[] = []
-  function broadcastTime(time: String) {
-    if (connection) {
-      connection.forEach((c) => c.sendUTF(time))
+  let connections: WS.connection[] = []
+  function broadcastTime(time: string) {
+    if (connections.length > 0) {
+      connections.forEach((c) => c.sendUTF(time))
     }
   }
   wsServer.on('connect', (c) => {
     console.log('ws: connection started')
-    connection.push(c)
+    connections.push(c)
+    console.log("outstanding connections: ", connections.length)
     c.on('message', (d) => {
       console.log(d)
     })
   })
   wsServer.on('close', (c) => {
-    const ref = c.socket.ref
-
-    console.log(c)
-    console.log(ref)
-    connection = connection.filter((c) => c.socket.ref != ref)
+    const ref = c.socket.ref()
+    connections = connections.filter((c) => c.socket.ref() != ref)
+    console.log("connections left:", connections.length)
   })
 }
 

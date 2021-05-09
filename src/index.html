@@ -9,8 +9,16 @@
     integrity="sha512-RntatPOhEcQEA81gC/esYoCkGkL7AYV7TeTPoU+R9zE44/yWxVvLIBfBSaMu78rhoDd73ZeRHXRJN5+aPEK53Q=="
     crossorigin="anonymous"
   />
-  <body>
-    <div id="root"></div>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+    integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+    crossorigin="anonymous"
+  ></script>
+  <body className="flex flex-col w-100">
+    <div
+      id="root"
+      className="flex flex-start justify-center justify-items-center content-center"
+    ></div>
 
     <script type="text/babel">
       const { useEffect, useState } = React
@@ -20,32 +28,41 @@
         ws.send('Hi this is web client.')
       }
       ws.onmessage = function (e) {
-
         console.log("Received: '" + e.data + "'")
       }
       const App = (props) => {
-
-        const [time, setTime] = useState("");
+        const [time, setTime] = useState('')
+        const [counter, setCounter] = useState('')
         useEffect(() => {
           fetch('/counter')
             .then((e) => e.json())
             .then((r) => {
               console.log(r)
+              setCounter(r.decrement)
             })
             .catch()
         }, [])
         useEffect(() => {
-            ws.onmessage = function (e) {
+          ws.onmessage = function (e) {
             console.log("Received: '" + e.data + "'")
-            setTime(e.data)
-            }
-        },[])
+            const time = moment(e.data).local().toString();
+            setTime(time)
+          }
+        }, [])
 
-        return <div className="flex flex-col bg-blue-400">
-            HI there:
-            <div>time is {time} </div>
-            
+        return (
+          <div className="flex flex-col">
+            <div className="w-1/2 h-82 bg-blue-400 flex flex-col">
+              <div className="font-bold">
+                decrement set: {counter} second {counter ==1 ? '' : 's'}
+                <div>
+                  <span> remote time: </span>
+                  {time}
+                </div>
+              </div>
             </div>
+          </div>
+        )
       }
 
       ReactDOM.render(<App />, document.getElementById('root'))

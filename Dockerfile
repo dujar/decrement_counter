@@ -4,10 +4,8 @@ WORKDIR /code
 
 COPY . /code
 
-#RUN yarn
+RUN yarn
 
 ARG decrement
 
 EXPOSE 8080
-
-# CMD yarn start ${decrement}
